@@ -5,10 +5,20 @@
  */
 package Facade;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 /**
  *
  * @author butwhole
  */
 public class Controller {
+    
+    public static void main(String[] args) {
+        Persistence.generateSchema("PU", null);
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+        EntityManager em = emf.createEntityManager();
+    }
     
 }
