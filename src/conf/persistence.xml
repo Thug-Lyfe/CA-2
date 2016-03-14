@@ -3,6 +3,7 @@
   <persistence-unit name="CA-2PU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>Entities.NewEntity</class>
+    <class>Entities.NewEntity1</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/ca-2?zeroDateTimeBehavior=convertToNull"/>
