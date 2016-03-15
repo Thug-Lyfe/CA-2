@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entities;
+package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import javax.persistence.CascadeType;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -22,8 +22,9 @@ public class CityInfo implements Serializable {
     @Id
     private int zipCode;
     private String city;
-    @OneToMany(cascade = CascadeType.PERSIST,mappedBy = "shityInfo")
-    private ArrayList<Address> hoods = new ArrayList();
+
+    @OneToMany(mappedBy = "shityInfo")
+    private List<Address> hoods = new ArrayList();
 
     public CityInfo(int zipCode, String city) {
         this.zipCode = zipCode;
@@ -33,7 +34,7 @@ public class CityInfo implements Serializable {
     public CityInfo() {
     }
 
-    public ArrayList<Address> getHoods() {
+    public List<Address> getHoods() {
         return hoods;
     }
 

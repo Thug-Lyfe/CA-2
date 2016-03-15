@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entities;
+package entity;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
@@ -23,6 +23,7 @@ public class Phone implements Serializable {
     @Id
     private int number;
     private String disc;
+
     @ManyToOne
     private InfoEntity hoe;
 

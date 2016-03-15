@@ -3,13 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entities;
+package entity;
 
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
@@ -23,8 +21,10 @@ public class Hobby implements Serializable {
     @Id
     private String name;
     private String disc;
+
     @ManyToMany(mappedBy = "hobbies")
     private List<Person> persons;
+
 
     public Hobby(String name, String disc) {
         this.name = name;

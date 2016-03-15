@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entities;
+package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import javax.persistence.CascadeType;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 
@@ -20,8 +20,9 @@ public class Person extends InfoEntity implements Serializable {
     private static final long serialVersionUID = 1L;
    
     private String firstName, lastName;
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    private ArrayList<Hobby> hobbies = new ArrayList();
+
+    @ManyToMany
+    private List<Hobby> hobbies = new ArrayList();
     public Person() {
     }
 
@@ -30,7 +31,7 @@ public class Person extends InfoEntity implements Serializable {
         this.lastName = lastName;
     }
 
-    public ArrayList<Hobby> getHobbies() {
+    public List<Hobby> getHobbies() {
         return hobbies;
     }
 

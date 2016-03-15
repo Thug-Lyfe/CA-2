@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Entities;
+package entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import javax.persistence.CascadeType;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,12 +29,14 @@ public abstract class InfoEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String email;
-    @OneToMany(cascade = CascadeType.PERSIST,mappedBy = "hoe")
-    private ArrayList<Phone> phonies = new ArrayList();
+    
+    @OneToMany(mappedBy = "hoe")
+    private List<Phone> phonies = new ArrayList();
+
     @ManyToOne
     private Address hood;
 
-    public ArrayList<Phone> getPhonies() {
+    public List<Phone> getPhonies() {
         return phonies;
     }
 
