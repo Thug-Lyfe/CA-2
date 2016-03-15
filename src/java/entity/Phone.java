@@ -6,6 +6,7 @@
 package entity;
 
 import java.io.Serializable;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,7 +25,7 @@ public class Phone implements Serializable {
     private int number;
     private String disc;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private InfoEntity hoe;
 
     public Phone(int number, String disc) {

@@ -8,6 +8,7 @@ package entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -24,10 +25,10 @@ public class Address implements Serializable {
     private String street;
     private String additonalInfo;
 
-    @OneToMany(mappedBy = "hood")
+    @OneToMany(mappedBy = "hood",cascade = CascadeType.PERSIST)
     private List<InfoEntity> inHoes = new ArrayList();
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private CityInfo shityInfo;
 
     public List<InfoEntity> getInHoes() {
