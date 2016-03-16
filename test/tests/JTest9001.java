@@ -28,7 +28,6 @@ public class JTest9001 {
     
     @BeforeClass
     public static void setUpClass() {
-        Persistence.generateSchema("PU", null);
     }
     
     @AfterClass
@@ -45,14 +44,14 @@ public class JTest9001 {
     @Test
     public void test1(){
         Person p1 = new Person("Marco", "Blum");
-        p1.addHobby(new Hobby("whatever", "somtihng"));
+        p1.addHobby(new Hobby("whatever23456", "somtihng"));
         cc.addPerson(p1);
         
         
         
         Person p2 = new Person("David", "Blum");
-        Hobby h1 = new Hobby("yeaaaasssss","asdfghjk");
-        h1.addPersons(p2);
+        Hobby h1 = new Hobby("yeaaaassss23456s","asdfghjk");
+        h1.addPersons(p1);
         cc.addHobby(h1);
         
         

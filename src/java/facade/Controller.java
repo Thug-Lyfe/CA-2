@@ -27,8 +27,16 @@ import javax.persistence.TypedQuery;
 public class Controller {
 
     public static void main(String[] args) {
+        Controller cc = new Controller();
         Persistence.generateSchema("PU", null);
-        
+        Person p1 = new Person("Marco", "Blum");
+        Person p2 = new Person("David", "Blum");
+        Hobby h1 = new Hobby("yeaaaassss23456s", "asdfghjk");
+        cc.addPerson(p1);
+        cc.addPerson(p2);
+        cc.addHobby(h1);
+        cc.hobbifyPerson(1, "yeaaaassss23456s");
+        cc.hobbifyPerson(2, "yeaaaassss23456s");
 
     }
     EntityManagerFactory emf;
@@ -134,7 +142,7 @@ public class Controller {
         }
 
     }
-    
+
     public Person editPerson(Person p) {
         em = emf.createEntityManager();
         try {
@@ -154,8 +162,8 @@ public class Controller {
         }
 
     }
-    
-    public void deletePerson(int id){
+
+    public void deletePerson(int id) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -179,7 +187,7 @@ public class Controller {
         }
 
     }
-    
+
     public Company editCompany(Company c) {
         em = emf.createEntityManager();
         try {
@@ -201,8 +209,8 @@ public class Controller {
         }
 
     }
-    
-    public void deleteCompany(int id){
+
+    public void deleteCompany(int id) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -213,13 +221,10 @@ public class Controller {
             em.close();
         }
     }
- 
-    public Hobby addHobby(Person p, Hobby h) {
-        p.addHobby(h);
-        h.addPersons(p);
+
+    public Hobby addHobby(Hobby h) {
         em = emf.createEntityManager();
         try {
-            
             em.getTransaction().begin();
             em.persist(h);
             em.getTransaction().commit();
@@ -229,7 +234,7 @@ public class Controller {
         }
 
     }
-    
+
     public Hobby editHobby(Hobby h) {
         em = emf.createEntityManager();
         try {
@@ -246,8 +251,8 @@ public class Controller {
         }
 
     }
-    
-    public void deleteHobby(int id){
+
+    public void deleteHobby(int id) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -258,8 +263,8 @@ public class Controller {
             em.close();
         }
     }
-    
-    public Phone addPhone(InfoEntity i,Phone p) {
+
+    public Phone addPhone(InfoEntity i, Phone p) {
         i.addPhonies(p);
         p.setHoe(i);
         em = emf.createEntityManager();
@@ -273,7 +278,7 @@ public class Controller {
         }
 
     }
-    
+
     public Phone editPhone(Phone p) {
         em = emf.createEntityManager();
         try {
@@ -289,8 +294,8 @@ public class Controller {
         }
 
     }
-    
-    public void deletePhone(int number){
+
+    public void deletePhone(int number) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -301,7 +306,7 @@ public class Controller {
             em.close();
         }
     }
-    
+
     public Address addAddress(Address p) {
         em = emf.createEntityManager();
         try {
@@ -314,7 +319,7 @@ public class Controller {
         }
 
     }
-    
+
     public Address editAddress(Address p) {
         em = emf.createEntityManager();
         try {
@@ -331,8 +336,8 @@ public class Controller {
         }
 
     }
-    
-    public void deleteAddress(String street){
+
+    public void deleteAddress(String street) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -343,4 +348,20 @@ public class Controller {
             em.close();
         }
     }
+
+    public void hobbifyPerson(int id, String hobby) {
+        em = emf.createEntityManager();
+        try {
+            Person p = em.find(Person.class, id);
+            Hobby h = em.find(Hobby.class, hobby);
+            em.getTransaction().begin();
+            p.addHobby(h);
+            h.addPersons(p);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+
+    }
+
 }

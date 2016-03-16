@@ -24,7 +24,7 @@ public class Hobby implements Serializable {
     private String name;
     private String disc;
 
-    @ManyToMany(mappedBy = "hobbies",cascade = CascadeType.PERSIST)
+    @ManyToMany(mappedBy = "hobbies")
     private List<Person> persons = new ArrayList();
 
 
