@@ -5,31 +5,34 @@
  */
 package tests;
 
+import entity.Address;
+import entity.CityInfo;
+import entity.Company;
 import entity.Hobby;
 import entity.Person;
+import entity.Phone;
 import facade.Controller;
-import java.util.ArrayList;
 import javax.persistence.Persistence;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
  * @author David
  */
 public class JTest9001 {
+
     
-    Controller cc = new Controller();
-    
+
     public JTest9001() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
+        Persistence.generateSchema("PU", null);
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
@@ -39,22 +42,67 @@ public class JTest9001 {
     //
     // @Test
     // public void hello() {}
-    
-    
     @Test
-    public void test1(){
-        Person p1 = new Person("Marco", "Blum");
-        p1.addHobby(new Hobby("whatever23456", "somtihng"));
-        cc.addPerson(p1);
+    public void adds() {
+        Controller.addHobby(new Hobby("Running", "use energy to move legs to gain velocity"));
+        Controller.addHobby(new Hobby("Biking", "use energy to move legs to gain velocity"));
+        Controller.addHobby(new Hobby("Gaming", "use energy to move fingers and wrists to move mouse"));
+        Controller.addHobby(new Hobby("Masturbating", "use energy to move wrist and tighten grip to make friction"));
         
+
+        Controller.addPerson(new Person("p1", "Blum"));
+        Controller.addPerson(new Person("p2", "Blum"));
+        Controller.addPerson(new Person("p3", "Blum"));
         
-        
-        Person p2 = new Person("David", "Blum");
-        Hobby h1 = new Hobby("yeaaaassss23456s","asdfghjk");
-        h1.addPersons(p1);
-        cc.addHobby(h1);
-        
+        Controller.addCompany(new Company("el giganten", "store", "741852789", 55, 3000000));
+        Controller.addCompany(new Company("fona", "store", "9875462", 69, 2000000));
+        Controller.addCompany(new Company("data world", "store", "7965428", 10, 1000000));
         
         
     }
+    @Test
+    public void addPhone() {
+        
+        //add phone to person
+        //existing person new phone
+        Person p1 = Controller.getPerson(1);
+        p1.addPhonies(new Phone(452587598,"add phone test"));
+        Controller.editPerson(p1);
+
+        
+    }
+    @Test
+    public void hobbify(){
+        Controller.hobbifyPerson(1, "Running");
+        Controller.hobbifyPerson(2, "Biking");
+        Controller.hobbifyPerson(3, "Gaming");
+        Controller.hobbifyPerson(3, "Masturbating");
+        Controller.hobbifyPerson(2, "Running");
+        Controller.hobbifyPerson(2, "Gaming");
+        
+    }
+    @Test
+    public void addAddress(){
+        
+        //existing person new address
+        Person p1 = Controller.getPerson(1);
+        p1.setHood(new Address("hovedgaden", "22 2th", new CityInfo(2800, "lyngby")));
+        Controller.editPerson(p1);
+        
+        //existing person and address
+        Person p2 = Controller.getPerson(2);
+        Address hood2 = Controller.addAddress(new Address("gade 2","2",new CityInfo(1337,"somewhere")));
+        p2.setHood(hood2);
+        Controller.editPerson(p2);
+        
+        
+    }
+    @Test
+    public void delete(){
+        Controller.deletePerson(3);
+        Controller.deleteCompany(3);
+        Controller.deletePhone(525875984);
+    
+    }
+    
 }
