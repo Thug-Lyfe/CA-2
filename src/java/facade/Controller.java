@@ -37,6 +37,7 @@ public class Controller {
         cc.addHobby(h1);
         cc.hobbifyPerson(1, "yeaaaassss23456s");
         cc.hobbifyPerson(2, "yeaaaassss23456s");
+        System.out.println(JSONConverter.getJSONFromPerson(getPersonlist()));
 
     }
     private static EntityManagerFactory emf;
