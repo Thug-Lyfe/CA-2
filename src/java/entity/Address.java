@@ -25,7 +25,13 @@ public class Address implements Serializable {
     private String street;
     private String additonalInfo;
 
-    @OneToMany(mappedBy = "hood",cascade = CascadeType.PERSIST)
+    public Address(String street, String additonalInfo, CityInfo shityInfo) {
+        this.street = street;
+        this.additonalInfo = additonalInfo;
+        this.shityInfo = shityInfo;
+    }
+
+    @OneToMany(mappedBy = "hood")
     private List<InfoEntity> inHoes = new ArrayList();
 
     @ManyToOne(cascade = CascadeType.PERSIST)

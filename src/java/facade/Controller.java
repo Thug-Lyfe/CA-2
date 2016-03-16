@@ -30,13 +30,13 @@ public class Controller {
         Controller cc = new Controller();
         Persistence.generateSchema("PU", null);
         Person p1 = new Person("Marco", "Blum");
-        Person p2 = new Person("David", "Blum");
-        Hobby h1 = new Hobby("yeaaaassss23456s", "asdfghjk");
-        cc.addPerson(p1);
-        cc.addPerson(p2);
-        cc.addHobby(h1);
-        cc.hobbifyPerson(1, "yeaaaassss23456s");
-        cc.hobbifyPerson(2, "yeaaaassss23456s");
+        p1.setEmail("mail@mail");
+        p1.setHood(new Address());
+        Hobby h1 = new Hobby("aids", "what alex has");
+        addPerson(p1);
+        addHobby(h1);
+        hobbifyPerson(1, "yeaaaassss23456s");
+
         System.out.println(JSONConverter.getJSONFromPerson(getPersonlist()));
 
     }

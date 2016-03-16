@@ -25,7 +25,7 @@ public class Phone implements Serializable {
     private int number;
     private String disc;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     private InfoEntity hoe;
 
     public Phone(int number, String disc) {
