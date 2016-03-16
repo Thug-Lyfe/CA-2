@@ -47,6 +47,19 @@ public class Controller {
 
     }
 
+    public List<Person> getPersonlist() {
+
+        em = emf.createEntityManager();
+        try {
+            List<Person> persons;
+            Query q = em.createQuery("SELECT c from Person c");
+            persons = q.getResultList();
+            return persons;
+        } finally {
+            em.close();
+        }
+    }
+
     public Person getPerson(int id) {
         em = emf.createEntityManager();
         try {
