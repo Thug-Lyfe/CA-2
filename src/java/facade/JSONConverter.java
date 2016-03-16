@@ -19,9 +19,9 @@ import java.util.List;
  */
 public class JSONConverter {
     
-    private static Gson gson = new GsonBuilder().create();
+    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
     
-    public static String getJSONFromPerson(Person p){
+    public static JsonObject getJSONFromPerson(Person p){
         JsonObject person = new JsonObject();
         person.addProperty("id", p.getId());
         person.addProperty("firstname", p.getFirstName());
@@ -39,16 +39,18 @@ public class JSONConverter {
             person.addProperty("hobby " +i+1, p.getHobbies().get(i).getName());
             person.addProperty("hobbydescription " +i+1, p.getHobbies().get(i).getDisc());
         }
-        return gson.toJson(person);
+        return person;
     } 
-    public static String getJSONFromPerson(List<Person> list){
+    public static JsonArray getJSONFromPerson(List<Person> list){
         JsonArray people = new JsonArray();
         for (Person p : list) {
             people.add(getJSONFromPerson(p));
         }
-        
-        return gson.toJson(people);
+        return people;
     }
     
-    
+    public static String getJSON(JsonElement voorhees){
+        
+        return gson.toJson(voorhees);
+    }
 }
