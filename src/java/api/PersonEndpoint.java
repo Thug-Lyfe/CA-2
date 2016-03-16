@@ -41,7 +41,7 @@ public class PersonEndpoint {
     @Path("/complete")
     @Produces("application/json")
     public String getJson() {
-        return JSONConverter.getJSONFromPerson(Controller.getPersonlist());
+        return JSONConverter.getJSON(JSONConverter.getJSONFromPerson(Controller.getPersonlist()));
     }
 
     /**
