@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class JSONConverter {
     
-    private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private static Gson gson = new GsonBuilder().create();
     
     public static String getJSONFromPerson(Person p){
         JsonObject person = new JsonObject();
@@ -30,14 +30,14 @@ public class JSONConverter {
         person.addProperty("street", p.getHood().getStreet());
         person.addProperty("addinfo", p.getHood().getAdditonalInfo());
         for (int i = 0; i < p.getPhonies().size(); i++) {
-            person.addProperty("phonenumber " + i, p.getPhonies().get(i).getNumber());
-            person.addProperty("phonedescription" + i, p.getPhonies().get(i).getDisc());
+            person.addProperty("phonenumber " + i+1, p.getPhonies().get(i).getNumber());
+            person.addProperty("phonedescription" + i+1, p.getPhonies().get(i).getDisc());
         }
         person.addProperty("zipcode", p.getHood().getShityInfo().getZipCode());
         person.addProperty("city", p.getHood().getShityInfo().getCity());
         for (int i = 0; i < p.getHobbies().size(); i++) {
-            person.addProperty("hobby " +i, p.getHobbies().get(i).getName());
-            person.addProperty("hobbydescription " +i, p.getHobbies().get(i).getDisc());
+            person.addProperty("hobby " +i+1, p.getHobbies().get(i).getName());
+            person.addProperty("hobbydescription " +i+1, p.getHobbies().get(i).getDisc());
         }
         return gson.toJson(person);
     } 

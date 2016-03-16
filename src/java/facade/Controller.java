@@ -27,26 +27,26 @@ import javax.persistence.TypedQuery;
 public class Controller {
 
     public static void main(String[] args) {
-        Controller cc = new Controller();
+        
         Persistence.generateSchema("PU", null);
+        
+        
         Person p1 = new Person("Marco", "Blum");
         p1.setEmail("mail@mail");
-        p1.setHood(new Address());
+        p1.setHood(new Address("street", "this is where i live", new CityInfo(1234, "city")));
+        p1.addPhonies(new Phone(12345678, "my phone"));
+        
         Hobby h1 = new Hobby("aids", "what alex has");
         addPerson(p1);
         addHobby(h1);
-        hobbifyPerson(1, "yeaaaassss23456s");
+        hobbifyPerson(1, "aids");
 
         System.out.println(JSONConverter.getJSONFromPerson(getPersonlist()));
 
     }
-    private static EntityManagerFactory emf;
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
     private static EntityManager em;
 
-    public Controller() {
-        emf = Persistence.createEntityManagerFactory("PU");
-
-    }
 
     public static List<Person> getPersonlist() {
 

@@ -25,6 +25,9 @@ public class Address implements Serializable {
     private String street;
     private String additonalInfo;
 
+    public Address() {
+    }
+
     public Address(String street, String additonalInfo, CityInfo shityInfo) {
         this.street = street;
         this.additonalInfo = additonalInfo;
