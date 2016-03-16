@@ -40,7 +40,7 @@ public class Person extends InfoEntity implements Serializable {
         this.hobbies.add(hobby);
     }
     
-    public void setHobbies(ArrayList<Hobby> hobbies) {
+    public void setHobbies(List<Hobby> hobbies) {
         this.hobbies = hobbies;
     }
 

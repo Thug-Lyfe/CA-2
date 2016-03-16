@@ -35,7 +35,7 @@ public class Address implements Serializable {
         return inHoes;
     }
 
-    public void setInHoes(ArrayList<InfoEntity> inHoes) {
+    public void setInHoes(List<InfoEntity> inHoes) {
         this.inHoes = inHoes;
     }
 
@@ -63,16 +63,9 @@ public class Address implements Serializable {
         this.additonalInfo = additonalInfo;
     }
 
-    public List<InfoEntity> getInhoes() {
-        return inHoes;
-    }
-
-    public void addInhoes(InfoEntity inhoes) {
+   
+    public void addInHoes(InfoEntity inhoes) {
         this.inHoes.add(inhoes);
-    }
-    
-    public void setInhoes(ArrayList<InfoEntity> inhoes) {
-        this.inHoes = inhoes;
     }
     
     

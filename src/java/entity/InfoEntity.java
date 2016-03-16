@@ -41,7 +41,7 @@ public abstract class InfoEntity implements Serializable {
         return phonies;
     }
 
-    public void setPhonies(ArrayList<Phone> phonies) {
+    public void setPhonies(List<Phone> phonies) {
         this.phonies = phonies;
     }
     
