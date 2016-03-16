@@ -5,6 +5,8 @@
  */
 package api;
 
+import facade.Controller;
+import facade.JSONConverter;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.PathParam;
@@ -17,38 +19,38 @@ import javax.ws.rs.PUT;
 /**
  * REST Web Service
  *
- * @author butwhole
+ * @author Alex
  */
-@Path("generic")
-public class Rest {
+@Path("person")
+public class PersonEndpoint {
 
     @Context
     private UriInfo context;
 
     /**
-     * Creates a new instance of GenericResource
+     * Creates a new instance of PersonEndpoint
      */
-    public Rest() {
+    public PersonEndpoint() {
     }
 
     /**
-     * Retrieves representation of an instance of api.GenericResource
+     * Retrieves representation of an instance of api.PersonEndpoint
      * @return an instance of java.lang.String
      */
     @GET
-    @Produces("application/xml")
-    public String getXml() {
-        //TODO return proper representation object
-        throw new UnsupportedOperationException();
+    @Path("/complete")
+    @Produces("application/json")
+    public String getJson() {
+        return JSONConverter.getJSONFromPerson(Controller.getPersonlist());
     }
 
     /**
-     * PUT method for updating or creating an instance of GenericResource
+     * PUT method for updating or creating an instance of PersonEndpoint
      * @param content representation for the resource
      * @return an HTTP response with content of the updated or created resource.
      */
     @PUT
-    @Consumes("application/xml")
-    public void putXml(String content) {
+    @Consumes("application/json")
+    public void putJson(String content) {
     }
 }

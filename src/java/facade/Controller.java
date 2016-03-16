@@ -39,15 +39,15 @@ public class Controller {
         cc.hobbifyPerson(2, "yeaaaassss23456s");
 
     }
-    EntityManagerFactory emf;
-    EntityManager em;
+    private static EntityManagerFactory emf;
+    private static EntityManager em;
 
     public Controller() {
         emf = Persistence.createEntityManagerFactory("PU");
 
     }
 
-    public List<Person> getPersonlist() {
+    public static List<Person> getPersonlist() {
 
         em = emf.createEntityManager();
         try {
@@ -60,7 +60,7 @@ public class Controller {
         }
     }
 
-    public Person getPerson(int id) {
+    public static Person getPerson(int id) {
         em = emf.createEntityManager();
         try {
             Person p = em.find(Person.class, id);
@@ -70,7 +70,7 @@ public class Controller {
         }
     }
 
-    public Company getCompany(int id) {
+    public static Company getCompany(int id) {
         em = emf.createEntityManager();
         try {
             Company c = em.find(Company.class, id);
@@ -80,7 +80,7 @@ public class Controller {
         }
     }
 
-    public List<Person> getPersonByHobby(String hobby) {
+    public static List<Person> getPersonByHobby(String hobby) {
         em = emf.createEntityManager();
         try {
             Hobby h = em.find(Hobby.class, hobby);
@@ -91,7 +91,7 @@ public class Controller {
         }
     }
 
-    public List<Person> getPersonByCity(int zip) {
+    public static List<Person> getPersonByCity(int zip) {
         em = emf.createEntityManager();
         try {
             CityInfo ci = em.find(CityInfo.class, zip);
@@ -110,7 +110,7 @@ public class Controller {
         }
     }
 
-    public int getHobbyCount(String hobby) {
+    public static int getHobbyCount(String hobby) {
         em = emf.createEntityManager();
         try {
             Hobby h = em.find(Hobby.class, hobby);
@@ -120,7 +120,7 @@ public class Controller {
         }
     }
 
-    public List<CityInfo> getCities() {
+    public static List<CityInfo> getCities() {
         em = emf.createEntityManager();
         try {
             TypedQuery<CityInfo> tq = em.createQuery("Select c from CityInfo c", CityInfo.class);
@@ -131,7 +131,7 @@ public class Controller {
         }
     }
 
-    public List<Company> getCompanyByEmployees(int employeeCount) {
+    public static List<Company> getCompanyByEmployees(int employeeCount) {
         em = emf.createEntityManager();
         try {
             Query q = em.createQuery("select c from Company c where c.numEmployees >= :num");
@@ -143,7 +143,7 @@ public class Controller {
         }
     }
 
-    public Person addPerson(Person p) {
+    public static Person addPerson(Person p) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -156,7 +156,7 @@ public class Controller {
 
     }
 
-    public Person editPerson(Person p) {
+    public static Person editPerson(Person p) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -176,7 +176,7 @@ public class Controller {
 
     }
 
-    public void deletePerson(int id) {
+    public static void deletePerson(int id) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -188,7 +188,7 @@ public class Controller {
         }
     }
 
-    public Company addCompany(Company c) {
+    public static Company addCompany(Company c) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -201,7 +201,7 @@ public class Controller {
 
     }
 
-    public Company editCompany(Company c) {
+    public static Company editCompany(Company c) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -223,7 +223,7 @@ public class Controller {
 
     }
 
-    public void deleteCompany(int id) {
+    public static void deleteCompany(int id) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -235,7 +235,7 @@ public class Controller {
         }
     }
 
-    public Hobby addHobby(Hobby h) {
+    public static Hobby addHobby(Hobby h) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -248,7 +248,7 @@ public class Controller {
 
     }
 
-    public Hobby editHobby(Hobby h) {
+    public static Hobby editHobby(Hobby h) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -265,7 +265,7 @@ public class Controller {
 
     }
 
-    public void deleteHobby(int id) {
+    public static void deleteHobby(int id) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -277,7 +277,7 @@ public class Controller {
         }
     }
 
-    public Phone addPhone(InfoEntity i, Phone p) {
+    public static Phone addPhone(InfoEntity i, Phone p) {
         i.addPhonies(p);
         p.setHoe(i);
         em = emf.createEntityManager();
@@ -292,7 +292,7 @@ public class Controller {
 
     }
 
-    public Phone editPhone(Phone p) {
+    public static Phone editPhone(Phone p) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -308,7 +308,7 @@ public class Controller {
 
     }
 
-    public void deletePhone(int number) {
+    public static void deletePhone(int number) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -320,7 +320,7 @@ public class Controller {
         }
     }
 
-    public Address addAddress(Address p) {
+    public static Address addAddress(Address p) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -333,7 +333,7 @@ public class Controller {
 
     }
 
-    public Address editAddress(Address p) {
+    public static Address editAddress(Address p) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -350,7 +350,7 @@ public class Controller {
 
     }
 
-    public void deleteAddress(String street) {
+    public static void deleteAddress(String street) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -362,7 +362,7 @@ public class Controller {
         }
     }
 
-    public void hobbifyPerson(int id, String hobby) {
+    public static void hobbifyPerson(int id, String hobby) {
         em = emf.createEntityManager();
         try {
             Person p = em.find(Person.class, id);
