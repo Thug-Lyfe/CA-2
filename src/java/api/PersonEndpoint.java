@@ -36,6 +36,7 @@ public class PersonEndpoint {
     /**
      * Retrieves representation of an instance of api.PersonEndpoint
      * @return an instance of java.lang.String
+     * work
      */
     @GET
     @Path("/complete")
