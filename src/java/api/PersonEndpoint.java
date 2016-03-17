@@ -44,6 +44,27 @@ public class PersonEndpoint {
     public String getJson() {
         return JSONConverter.getJSON(JSONConverter.getJSONFromPerson(Controller.getPersonlist()));
     }
+    
+    @GET
+    @Path("/complete")
+    @Produces("application/json")
+    public String getPerson(@PathParam("id") int id) {
+        return JSONConverter.getJSON(JSONConverter.getJSONFromPerson(Controller.getPerson(id)));
+    }
+    
+    @GET
+    @Path("/contactinfo")
+    @Produces("application/json")
+    public String getContactInfo(){
+        return JSONConverter.getJSON(JSONConverter.getJSONfromContact(Controller.getPersonlist()));
+    }
+    
+    @GET
+    @Path("/complete")
+    @Produces("application/json")
+    public String getPersonContactInfo(@PathParam("id") int id){
+        return JSONConverter.getJSON(JSONConverter.getJSONfromContact(Controller.getPerson(id)));
+    }
 
     /**
      * PUT method for updating or creating an instance of PersonEndpoint

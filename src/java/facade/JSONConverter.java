@@ -18,39 +18,136 @@ import java.util.List;
  * @author Alex
  */
 public class JSONConverter {
-    
+
     private static Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    
-    public static JsonObject getJSONFromPerson(Person p){
+
+    public static JsonObject getJSONFromPerson(Person p) {
         JsonObject person = new JsonObject();
+        JsonObject contactInfo = new JsonObject();
+        JsonObject name = new JsonObject();
+        JsonObject hobby = new JsonObject();
         person.addProperty("id", p.getId());
-        person.addProperty("firstname", p.getFirstName());
-        person.addProperty("lastname", p.getLastName());
-        person.addProperty("email", p.getEmail());
-        person.addProperty("street", p.getHood().getStreet());
-        person.addProperty("addinfo", p.getHood().getAdditonalInfo());
-        for (int i = 0; i < p.getPhonies().size(); i++) {
-            person.addProperty("phonenumber " + (i+1), p.getPhonies().get(i).getNumber());
-            person.addProperty("phonedescription" + (i+1), p.getPhonies().get(i).getDisc());
+        if (p.getFirstName() != null) {
+            name.addProperty("firstname", p.getFirstName());
+        } else {
+            name.addProperty("firstname", "");
         }
-        person.addProperty("zipcode", p.getHood().getShityInfo().getZipCode());
-        person.addProperty("city", p.getHood().getShityInfo().getCity());
-        for (int i = 0; i < p.getHobbies().size(); i++) {
-            person.addProperty("hobby " +(i+1), p.getHobbies().get(i).getName());
-            person.addProperty("hobbydescription " +(i+1), p.getHobbies().get(i).getDisc());
+        if (p.getLastName() != null) {
+            name.addProperty("lastname", p.getLastName());
+        } else {
+            name.addProperty("lastname", "");
         }
+        if (p.getEmail() != null) {
+            contactInfo.addProperty("email", p.getEmail());
+        } else {
+            contactInfo.addProperty("email", "");
+        }
+        if (p.getHood().getStreet() != null) {
+            contactInfo.addProperty("street", p.getHood().getStreet());
+        } else {
+            contactInfo.addProperty("street", "");
+        }
+        if (p.getHood().getAdditonalInfo() != null) {
+            contactInfo.addProperty("addinfo", p.getHood().getAdditonalInfo());
+        } else {
+            contactInfo.addProperty("addinfo", "");
+        }
+        if (p.getPhonies() != null) {
+            for (int i = 0; i < p.getPhonies().size(); i++) {
+                if (Integer.valueOf(p.getPhonies().get(i).getNumber()) != null) {
+                    contactInfo.addProperty("phonenumber " + (i + 1), p.getPhonies().get(i).getNumber());
+                } else {
+                    contactInfo.addProperty("phonenumber", "");
+                }
+                if (p.getPhonies().get(i).getDisc() != null) {
+                    contactInfo.addProperty("phonedescription" + (i + 1), p.getPhonies().get(i).getDisc());
+                } else {
+                    contactInfo.addProperty("phonedescription", "");
+                }
+            }
+
+        } else {
+            contactInfo.addProperty("phonenumber", "");
+            contactInfo.addProperty("phonedescription", "");
+        }
+        if (Integer.valueOf(p.getHood().getShityInfo().getZipCode()) != null) {
+            contactInfo.addProperty("zipcode", p.getHood().getShityInfo().getZipCode());
+        } else {
+            contactInfo.addProperty("zipcode", "");
+        }
+        if (p.getHood().getShityInfo().getCity() != null) {
+            contactInfo.addProperty("city", p.getHood().getShityInfo().getCity());
+        } else {
+            contactInfo.addProperty("city", "");
+        }
+        if (p.getHobbies() != null) {
+            for (int i = 0; i < p.getHobbies().size(); i++) {
+                JsonArray hobbies = new JsonArray();
+                if (p.getHobbies().get(i).getName() != null) {
+                    hobby.addProperty("hobby " + (i + 1), p.getHobbies().get(i).getName());
+                } else {
+                    hobby.addProperty("hobby", "");
+                }
+                if (p.getHobbies().get(i).getDisc() != null) {
+                    hobby.addProperty("hobbydescription " + (i + 1), p.getHobbies().get(i).getDisc());
+                } else {
+                    hobby.addProperty("hobbydescription", "");
+                }
+            }
+        } else {
+            hobby.addProperty("hobby", "");
+            hobby.addProperty("hobbydescription", "");
+        }
+        person.addProperty("Name", name.getAsString());
+        person.addProperty("ContactInfo", contactInfo.getAsString());
+        person.addProperty("Hobbies", hobby.getAsString());
         return person;
-    } 
-    public static JsonArray getJSONFromPerson(List<Person> list){
+    }
+
+    public static JsonArray getJSONFromPerson(List<Person> list) {
         JsonArray people = new JsonArray();
         for (Person p : list) {
             people.add(getJSONFromPerson(p));
         }
         return people;
     }
-    
-    public static String getJSON(JsonElement voorhees){
-        
+
+    public static String getJSON(JsonElement voorhees) {
+
         return gson.toJson(voorhees);
+    }
+
+    public static JsonArray getJSONfromContact(List<Person> list) {
+        JsonArray peeps = getJSONFromPerson(list);
+        JsonArray contacts = new JsonArray();
+
+        for (int i = 0; i < peeps.size(); i++) {
+            JsonObject check = peeps.get(i).getAsJsonObject();
+            if (check.has("ContactInfo")) {
+                if (check.has("Hobbies")) {
+                    check.remove("Hobbies");
+                }
+                if (check.has("Name")) {
+                    check.remove("Name");
+                }
+                contacts.add(check);
+            }
+        }
+        return contacts;
+    }
+
+    public static JsonObject getJSONfromContact(Person p) {
+        JsonObject temp = getJSONFromPerson(p);
+
+        if (temp.has("ContactInfo")) {
+            if (temp.has("Hobbies")) {
+                temp.remove("Hobbies");
+            }
+            if (temp.has("Name")) {
+                temp.remove("Name");
+            }
+        }
+
+        return temp;
     }
 }
