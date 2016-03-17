@@ -52,7 +52,7 @@ public class JSONConverter {
         } else {
             contactInfo.addProperty("addinfo", "");
         }
-        if (p.getPhonies() != null) {
+        if (p.getPhonies() != null || !p.getPhonies().isEmpty()) {
             for (int i = 0; i < p.getPhonies().size(); i++) {
                 if (Integer.valueOf(p.getPhonies().get(i).getNumber()) != null) {
                     contactInfo.addProperty("phonenumber " + (i + 1), p.getPhonies().get(i).getNumber());
@@ -80,7 +80,7 @@ public class JSONConverter {
         } else {
             contactInfo.addProperty("city", "");
         }
-        if (p.getHobbies() != null) {
+        if (p.getHobbies() != null || !p.getHobbies().isEmpty()) {
             
             for (int i = 0; i < p.getHobbies().size(); i++) {
                 JsonObject hobby = new JsonObject();
@@ -100,9 +100,23 @@ public class JSONConverter {
         } else {
             hobbies.add(new JsonObject());
         }
-        person.addProperty("Name", name.getAsString());
-        person.addProperty("ContactInfo", contactInfo.getAsString());
-        person.addProperty("Hobbies", hobbies.getAsString());
+//        
+//        person.addProperty("firstname", p.getFirstName());
+//        person.addProperty("lastname", p.getLastName());
+//        //person.addProperty("email", p.getEmail());
+//        //person.addProperty("street", p.getHood().getStreet());
+//        person.add("contact", contactInfo);
+//        person.addProperty("addinfo", p.getHood().getAdditonalInfo());
+//        person.addProperty("zipcode", p.getHood().getShityInfo().getZipCode());
+//        person.addProperty("city", p.getHood().getShityInfo().getCity());
+//        //person.addProperty("hobbies", hobbies.getAsString());
+//        
+//        
+//        
+        
+        person.add("Name", name);
+        person.add("ContactInfo", contactInfo);
+        person.add("Hobbies", hobbies);
         return person;
     }
 

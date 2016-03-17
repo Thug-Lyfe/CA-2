@@ -47,7 +47,8 @@ and open the template in the editor.
       }
       
         function makeRow(person) {
-        var row = "<tr id='" + person.id + "'><td>" + person.id + "</td><td>" + person.firstName + "</td><td>" + person.lastName + "</td><td>" + person.email + "</td><td>" + person.hobbies + "</td><td>" + person.phonies + "</td><td>" + person.hood + "</td><td>" + person.shityInfo + "</td><td>";
+//            
+        var row = "<tr id='" + person.id + "'><td>" + person.id + "</td><td>" + person.Name.firstname + "</td><td>" + person.Name.lastname + "</td><td>" + person.ContactInfo.email  + "</td><td>"+ person.ContactInfo.street + "</td><td>" + person.ContactInfo.city + "</td><td>" + person.ContactInfo.zipcode;
         row += "</td><td><a href='#' class='btndelete' data-personid='" + person.id + "'>delete</a> / ";
         "<a href='#' class='btnedit' data-personid='" + person.id;
         row += "<a href='#' class='btnedit' data-toggle='modal' data-target='#myModal' data-person='" + JSON.stringify(person) + "'>edit</a></td></tr>";
@@ -58,7 +59,7 @@ and open the template in the editor.
         var type = "POST";
 
         
-        var data = {fName: $("#fname").val(), lName: $("#lname").val(), email: $("#email").val(), adress: {street: $("#email").val(), additonalInfo: $("#addressInfo").val()}}
+        var data = {fName: $("#fname").val(), lName: $("#lname").val(), email: $("#email").val(), adress: {street: $("#email").val(), additonalInfo: $("#addressInfo").val()}};
 //        if (!isAdding()) {
 //          type = "PUT";
 //          data.id = $("#id").val();
@@ -94,7 +95,7 @@ and open the template in the editor.
           result.forEach(function (person) {
             $("#tbody").append(makeRow(person));
           });
-          setUpHandlers()
+//          setUpHandlers()
 
         }).fail(function (jqXHR, textStatus, errorThrown) {
           $("#error").html(textStatus + ", " + errorThrown).show();
@@ -126,7 +127,8 @@ and open the template in the editor.
         setIsAdding(true);
       }
       );
-        
+//      + "</td><td>" + person.Hobbies
+//        <td>Hobbies</td>
     </script>
     </head>
     <body>
@@ -134,7 +136,7 @@ and open the template in the editor.
     <h2>All Persons</h2>
     <table class="table" style="width: 50%">
       <thead>
-        <tr><td>ID</td><td>First Name</td><td>Last name</td><td>email</td><td>Hobbies</td><td>phones</td><td>Address</td><td>City</td></tr>
+        <tr><td>ID</td><td>First Name</td><td>Last name</td><td>email</td><td>phones</td><td>Address</td><td>City</td></tr>
       </thead>
       <tbody id="tbody"></tbody>
     </table>
