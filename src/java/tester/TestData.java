@@ -311,7 +311,7 @@ public class TestData {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
         EntityManager em = emf.createEntityManager();
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 25; i++) {
 
             ///// person 1 
             Person ie = new Person(firstnames.get(rand.nextInt(firstnames.size())), lastnames.get(rand.nextInt(lastnames.size())));
@@ -350,8 +350,7 @@ public class TestData {
             coma = Controller.addAddress(coma);
             comci = Controller.addCityInfo(comci);
             Controller.addressCityInfo(coma, comci);
-            com = Controller.addCompany(com);
-            com.setHood(coma);
+            Controller.addressify(com, coma);
 
             int getpos2 = rand.nextInt(cities.size()); // so both get the right value..
 
@@ -363,7 +362,7 @@ public class TestData {
             a = Controller.addAddress(a);
             ci = Controller.addCityInfo(ci);
             Controller.addressCityInfo(a, ci);
-            ie.setHood(a);
+            Controller.addressify(ie, a);
 
         }
 

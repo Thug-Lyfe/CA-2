@@ -406,5 +406,19 @@ public class Controller {
         }
 
     }
+    
+    public static void addressify(InfoEntity ie, Address a){
+        em = emf.createEntityManager();
+        try {
+            InfoEntity iee = em.find(InfoEntity.class, ie.getId());
+            Address as = em.find(Address.class, a.getStreet());
+            em.getTransaction().begin();
+            iee.setHood(as);
+            as.addInHoes(iee);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
 
 }
