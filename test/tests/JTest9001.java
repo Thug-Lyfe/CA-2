@@ -31,19 +31,6 @@ public class JTest9001 {
     @BeforeClass
     public static void setUpClass() {
         Persistence.generateSchema("PU", null);
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
-    @Test
-    public void adds() {
         Controller.addHobby(new Hobby("Running", "use energy to move legs to gain velocity"));
         Controller.addHobby(new Hobby("Biking", "use energy to move legs to gain velocity"));
         Controller.addHobby(new Hobby("Gaming", "use energy to move fingers and wrists to move mouse"));
@@ -57,20 +44,34 @@ public class JTest9001 {
         Controller.addCompany(new Company("el giganten", "store", "741852789", 55, 3000000));
         Controller.addCompany(new Company("fona", "store", "9875462", 69, 2000000));
         Controller.addCompany(new Company("data world", "store", "7965428", 10, 1000000));
-        
-        
     }
-    @Test
-    public void addPhone() {
-        
-        //add phone to person
-        //existing person new phone
-        Person p1 = Controller.getPerson(1);
-        p1.addPhonies(new Phone(452587598,"add phone test"));
-        Controller.editPerson(p1);
 
+    @AfterClass
+    public static void tearDownClass() {
+    }
+
+    // TODO add test methods here.
+    // The methods must be annotated with annotation @Test. For example:
+    //
+    // @Test
+    // public void hello() {}
+    @Test
+    public void adds() {
+        
+        
         
     }
+//    @Test
+//    public void addPhone() {
+//        
+//        //add phone to person
+//        //existing person new phone
+//        Person p1 = Controller.getPerson(1);
+//        p1.addPhonies(new Phone(452587598,"add phone test"));
+//        Controller.editPerson(p1);
+//
+//        
+//    }
     @Test
     public void hobbify(){
         Controller.hobbifyPerson(1, "Running");
@@ -79,6 +80,15 @@ public class JTest9001 {
         Controller.hobbifyPerson(3, "Masturbating");
         Controller.hobbifyPerson(2, "Running");
         Controller.hobbifyPerson(2, "Gaming");
+        
+        Person p1 = Controller.getPerson(1);
+        Person p2 = Controller.getPerson(2);
+        Person p3 = Controller.getPerson(3);
+        Controller.addPhone(p1,new Phone(452587598,"add phone test"));
+        Controller.addPhone(p2,new Phone(452587598,"add phone test"));
+        Controller.addPhone(p3,new Phone(452587598,"add phone test"));
+        
+        
         
     }
     @Test
@@ -97,12 +107,12 @@ public class JTest9001 {
         
         
     }
-    @Test
-    public void delete(){
-        Controller.deletePerson(3);
-        Controller.deleteCompany(3);
-        Controller.deletePhone(525875984);
-    
-    }
+//    @Test
+//    public void delete(){
+//        Controller.deletePerson(3);
+//        Controller.deleteCompany(3);
+//        Controller.deletePhone(525875984);
+//    
+//    }
     
 }
