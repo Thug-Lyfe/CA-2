@@ -25,13 +25,14 @@ import javax.persistence.OneToMany;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class InfoEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String email;
-    
-    @OneToMany(mappedBy = "hoe",cascade = CascadeType.PERSIST)
+
+    @OneToMany(mappedBy = "hoe", cascade = CascadeType.PERSIST)
     private List<Phone> phonies = new ArrayList();
 
     @ManyToOne(cascade = CascadeType.PERSIST)
@@ -44,7 +45,7 @@ public abstract class InfoEntity implements Serializable {
     public void setPhonies(List<Phone> phonies) {
         this.phonies = phonies;
     }
-    
+
     public void addPhonies(Phone phonies) {
         this.phonies.add(phonies);
     }
@@ -56,7 +57,7 @@ public abstract class InfoEntity implements Serializable {
     public void setHood(Address hood) {
         this.hood = hood;
     }
-    
+
     public String getEmail() {
         return email;
     }
@@ -64,9 +65,7 @@ public abstract class InfoEntity implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
-    
+
     public int getId() {
         return id;
     }
@@ -75,29 +74,4 @@ public abstract class InfoEntity implements Serializable {
         this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (int) id;
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof InfoEntity)) {
-            return false;
-        }
-        InfoEntity other = (InfoEntity) object;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "Entities.InfoEntity[ id=" + id + " ]";
-    }
-    
 }

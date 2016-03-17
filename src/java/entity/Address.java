@@ -20,6 +20,7 @@ import javax.persistence.OneToMany;
  */
 @Entity
 public class Address implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     private String street;
@@ -28,10 +29,10 @@ public class Address implements Serializable {
     public Address() {
     }
 
-    public Address(String street, String additonalInfo, CityInfo shityInfo) {
+    public Address(String street, String additonalInfo) {
         this.street = street;
         this.additonalInfo = additonalInfo;
-        this.shityInfo = shityInfo;
+//        this.shityInfo = shityInfo;
     }
 
     @OneToMany(mappedBy = "hood")
@@ -72,12 +73,8 @@ public class Address implements Serializable {
         this.additonalInfo = additonalInfo;
     }
 
-   
     public void addInHoes(InfoEntity inhoes) {
         this.inHoes.add(inhoes);
     }
-    
-    
-    
-    
+
 }

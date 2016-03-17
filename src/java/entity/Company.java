@@ -17,15 +17,17 @@ import javax.persistence.Id;
  */
 @Entity
 public class Company extends InfoEntity implements Serializable {
+
     private static final long serialVersionUID = 1L;
-    
+
     private String name, disc, cvr;
-    private int numEmployees, marketValue;
+    private int numEmployees;
+    private double marketValue;
 
     public Company() {
     }
 
-    public Company(String name, String disc, String cvr, int numEmployees, int marketValue) {
+    public Company(String name, String disc, String cvr, int numEmployees, double marketValue) {
         this.name = name;
         this.disc = disc;
         this.cvr = cvr;
@@ -65,13 +67,12 @@ public class Company extends InfoEntity implements Serializable {
         this.numEmployees = numEmployees;
     }
 
-    public int getMarketValue() {
+    public double getMarketValue() {
         return marketValue;
     }
 
-    public void setMarketValue(int marketValue) {
+    public void setMarketValue(double marketValue) {
         this.marketValue = marketValue;
     }
-    
-    
+
 }

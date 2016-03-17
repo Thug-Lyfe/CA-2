@@ -28,9 +28,14 @@ public class Phone implements Serializable {
     @ManyToOne
     private InfoEntity hoe;
 
-    public Phone(int number, String disc) {
+    public Phone(int number, String disc, InfoEntity o) {
         this.number = number;
         this.disc = disc;
+        this.hoe = o;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public Phone() {
@@ -54,10 +59,6 @@ public class Phone implements Serializable {
 
     public int getNumber() {
         return number;
-    }
-
-    public void setId(int id) {
-        this.number = id;
     }
 
 }
