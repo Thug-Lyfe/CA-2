@@ -265,14 +265,20 @@ public class Controller {
     }
 
     public static Phone addPhone(InfoEntity i, Phone p) {
-        i.addPhonies(p);
-        p.setHoe(i);
+
         em = emf.createEntityManager();
+        Phone found = em.find(Phone.class, p.getNumber());
         try {
-            em.getTransaction().begin();
-            em.persist(p);
-            em.getTransaction().commit();
-            return p;
+            if (found == null) {
+//                i.addPhonies(p);
+                p.setHoe(i);
+                em.getTransaction().begin();
+                em.persist(p);
+                em.getTransaction().commit();
+                return p;
+            } else {
+                return found;
+            }
         } finally {
             em.close();
         }
@@ -348,6 +354,38 @@ public class Controller {
             em.getTransaction().begin();
             Address p = em.find(Address.class, street);
             em.remove(p);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public static CityInfo addCityInfo(CityInfo ci) {
+        em = emf.createEntityManager();
+        try {
+            CityInfo found = em.find(CityInfo.class, ci.getZipCode());
+            if (found == null) {
+                em.getTransaction().begin();
+                em.persist(ci);
+                em.getTransaction().commit();
+                return ci;
+            } else {
+                return found;
+            }
+        } finally {
+            em.close();
+        }
+
+    }
+    
+    public static void addressCityInfo(Address a, CityInfo ci){
+        em = emf.createEntityManager();
+        try {
+            Address fa = em.find(Address.class, a.getStreet());
+            CityInfo fci = em.find(CityInfo.class, ci.getZipCode());
+            em.getTransaction().begin();
+            fa.setShityInfo(fci);
+            fci.addHoods(fa);
             em.getTransaction().commit();
         } finally {
             em.close();

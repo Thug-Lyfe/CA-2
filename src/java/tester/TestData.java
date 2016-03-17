@@ -316,9 +316,9 @@ public class TestData {
             ///// person 1 
             Person ie = new Person(firstnames.get(rand.nextInt(firstnames.size())), lastnames.get(rand.nextInt(lastnames.size())));
             ie.setEmail(ie.getFirstName()+"@mail.com");
-            Phone p = new Phone(numbers.get(rand.nextInt(numbers.size())), PhoneDesc.get(rand.nextInt(PhoneDesc.size())), ie);
-            p = Controller.addPhone(ie, p);
+            Phone p = new Phone((rand.nextInt(90000000)+10000000), PhoneDesc.get(rand.nextInt(PhoneDesc.size())));
             ie = Controller.addPerson(ie);
+            p = Controller.addPhone(ie, p);
 
             Hobby hobby1 = new Hobby();
             hobby1.setName(hobbies.get(rand.nextInt(hobbies.size())));
@@ -335,21 +335,23 @@ public class TestData {
             // new Company(name, description, cvr, i, i)
             Company com = new Company(companynames.get(rand.nextInt(companynames.size())), companydesc.get(rand.nextInt(companydesc.size())), cvr.get(rand.nextInt(cvr.size())).toString(), numEmployees.get(rand.nextInt(numEmployees.size())), marketvalue.get(rand.nextInt(marketvalue.size())));
             com.setEmail(com.getName()+"@mail.com");
-            Phone p1 = new Phone(numbers.get(rand.nextInt(numbers.size())), PhoneDesc.get(rand.nextInt(PhoneDesc.size())), com);
-            com.addPhonies(p1);
+            Phone p1 = new Phone((rand.nextInt(90000000)+10000000), PhoneDesc.get(rand.nextInt(PhoneDesc.size())));
+            
+            com = Controller.addCompany(com);
+            p1 = Controller.addPhone(com, p1);
+            
             int getpos = rand.nextInt(cities.size()); // so both get the right value..
 
             CityInfo comci = new CityInfo();
             comci.setCity(cities.get(getpos));
             comci.setZipCode(citieszipcodes.get(getpos));
             Address coma = new Address(addresses.get(rand.nextInt(addresses.size())), addressesdesc.get(rand.nextInt(addressesdesc.size())));
-            coma.setShityInfo(comci);
+            
+            coma = Controller.addAddress(coma);
+            comci = Controller.addCityInfo(comci);
+            Controller.addressCityInfo(coma, comci);
+            com = Controller.addCompany(com);
             com.setHood(coma);
-
-            em.getTransaction().begin();
-            em.persist(coma);
-            em.persist(com);
-            em.getTransaction().commit();
 
             int getpos2 = rand.nextInt(cities.size()); // so both get the right value..
 
@@ -357,12 +359,11 @@ public class TestData {
             ci.setCity(cities.get(getpos2));
             ci.setZipCode(citieszipcodes.get(getpos2));
             Address a = new Address(addresses.get(rand.nextInt(addresses.size())), addressesdesc.get(rand.nextInt(addressesdesc.size())));
-            a.setShityInfo(ci);
+            
+            a = Controller.addAddress(a);
+            ci = Controller.addCityInfo(ci);
+            Controller.addressCityInfo(a, ci);
             ie.setHood(a);
-
-            em.getTransaction().begin();
-            em.persist(a);
-            em.getTransaction().commit();
 
         }
 
