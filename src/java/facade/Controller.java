@@ -29,7 +29,6 @@ public class Controller {
     private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
     private static EntityManager em;
 
-
     public static List<Person> getPersonlist() {
 
         em = emf.createEntityManager();
@@ -221,10 +220,15 @@ public class Controller {
     public static Hobby addHobby(Hobby h) {
         em = emf.createEntityManager();
         try {
-            em.getTransaction().begin();
-            em.persist(h);
-            em.getTransaction().commit();
-            return h;
+            Hobby found = em.find(Hobby.class, h.getName());
+            if (found == null) {
+                em.getTransaction().begin();
+                em.persist(h);
+                em.getTransaction().commit();
+                return h;
+            } else {
+                return found;
+            }
         } finally {
             em.close();
         }
@@ -306,10 +310,15 @@ public class Controller {
     public static Address addAddress(Address p) {
         em = emf.createEntityManager();
         try {
-            em.getTransaction().begin();
-            em.persist(p);
-            em.getTransaction().commit();
-            return p;
+            Address found = em.find(Address.class, p.getStreet());
+            if (found == null) {
+                em.getTransaction().begin();
+                em.persist(p);
+                em.getTransaction().commit();
+                return p;
+            } else {
+                return found;
+            }
         } finally {
             em.close();
         }
@@ -359,5 +368,5 @@ public class Controller {
         }
 
     }
-    
+
 }

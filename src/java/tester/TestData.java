@@ -12,6 +12,7 @@ import entity.Hobby;
 import entity.InfoEntity;
 import entity.Person;
 import entity.Phone;
+import facade.Controller;
 import java.util.ArrayList;
 import java.util.Random;
 import javax.persistence.EntityManager;
@@ -241,6 +242,13 @@ public class TestData {
             add("Udbetaling");
             add("eBrevsprækken");
             add("Hellerup");
+            add("sdfgh");
+            add("sdfgjh6y");
+            add("asdgh6yn");
+            add("kjhdfv");
+            add("awtgcbv");
+            add("34thbfsdg");
+            add("34yhgfdfrty");
 
         }
     };
@@ -303,29 +311,27 @@ public class TestData {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
         EntityManager em = emf.createEntityManager();
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 5; i++) {
 
             ///// person 1 
             Person ie = new Person(firstnames.get(rand.nextInt(firstnames.size())), lastnames.get(rand.nextInt(lastnames.size())));
             ie.setEmail(ie.getFirstName()+"@mail.com");
             Phone p = new Phone(numbers.get(rand.nextInt(numbers.size())), PhoneDesc.get(rand.nextInt(PhoneDesc.size())), ie);
-            ie.addPhonies(p);
+            p = Controller.addPhone(ie, p);
+            ie = Controller.addPerson(ie);
 
             Hobby hobby1 = new Hobby();
             hobby1.setName(hobbies.get(rand.nextInt(hobbies.size())));
             hobby1.setDisc(hobbiesdesc.get(rand.nextInt(hobbiesdesc.size())));
+            hobby1 = Controller.addHobby(hobby1);
             Hobby hobby2 = new Hobby();
             hobby2.setName(hobbies.get(rand.nextInt(hobbies.size())));
             hobby2.setDisc(hobbiesdesc.get(rand.nextInt(hobbiesdesc.size())));
+            hobby2 = Controller.addHobby(hobby2);
+            
+            Controller.hobbifyPerson(ie.getId(), hobby1.getName());
+            Controller.hobbifyPerson(ie.getId(), hobby2.getName());
 
-            ie.addHobby(hobby1);
-            ie.addHobby(hobby2);
-            hobby1.addPersons(ie);
-            hobby2.addPersons(ie);
-
-            em.getTransaction().begin();
-            em.persist(ie);
-            em.getTransaction().commit();
             // new Company(name, description, cvr, i, i)
             Company com = new Company(companynames.get(rand.nextInt(companynames.size())), companydesc.get(rand.nextInt(companydesc.size())), cvr.get(rand.nextInt(cvr.size())).toString(), numEmployees.get(rand.nextInt(numEmployees.size())), marketvalue.get(rand.nextInt(marketvalue.size())));
             com.setEmail(com.getName()+"@mail.com");
