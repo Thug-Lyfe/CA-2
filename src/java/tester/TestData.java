@@ -311,7 +311,7 @@ public class TestData {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
         EntityManager em = emf.createEntityManager();
 
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < 10; i++) {
 
             ///// person 1 
             Person ie = new Person(firstnames.get(rand.nextInt(firstnames.size())), lastnames.get(rand.nextInt(lastnames.size())));

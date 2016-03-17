@@ -25,7 +25,7 @@ public class JSONConverter {
         JsonObject person = new JsonObject();
         JsonObject contactInfo = new JsonObject();
         JsonObject name = new JsonObject();
-        JsonObject hobby = new JsonObject();
+        JsonArray hobbies = new JsonArray();
         person.addProperty("id", p.getId());
         if (p.getFirstName() != null) {
             name.addProperty("firstname", p.getFirstName());
@@ -81,26 +81,28 @@ public class JSONConverter {
             contactInfo.addProperty("city", "");
         }
         if (p.getHobbies() != null) {
+            
             for (int i = 0; i < p.getHobbies().size(); i++) {
-                JsonArray hobbies = new JsonArray();
+                JsonObject hobby = new JsonObject();
                 if (p.getHobbies().get(i).getName() != null) {
-                    hobby.addProperty("hobby " + (i + 1), p.getHobbies().get(i).getName());
+                    hobby.addProperty("hobbyname", p.getHobbies().get(i).getName());
                 } else {
-                    hobby.addProperty("hobby", "");
+                    hobby.addProperty("hobbyname", "");
                 }
                 if (p.getHobbies().get(i).getDisc() != null) {
                     hobby.addProperty("hobbydescription " + (i + 1), p.getHobbies().get(i).getDisc());
                 } else {
                     hobby.addProperty("hobbydescription", "");
                 }
+                hobbies.add(hobby);
+                
             }
         } else {
-            hobby.addProperty("hobby", "");
-            hobby.addProperty("hobbydescription", "");
+            hobbies.add(new JsonObject());
         }
         person.addProperty("Name", name.getAsString());
         person.addProperty("ContactInfo", contactInfo.getAsString());
-        person.addProperty("Hobbies", hobby.getAsString());
+        person.addProperty("Hobbies", hobbies.getAsString());
         return person;
     }
 
