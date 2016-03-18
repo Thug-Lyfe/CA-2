@@ -5,6 +5,9 @@
  */
 package api;
 
+import entity.Hobby;
+import entity.Person;
+import entity.Phone;
 import facade.Controller;
 import facade.JSONConverter;
 import javax.ws.rs.core.Context;
@@ -13,6 +16,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
 
@@ -65,7 +69,27 @@ public class PersonEndpoint {
     public String getPersonContactInfo(@PathParam("id") int id){
         return JSONConverter.getJSON(JSONConverter.getJSONfromContact(Controller.getPerson(id)));
     }
-
+    
+    @POST
+    @Consumes("application/json")
+    @Produces("application/json")
+    public String createPerson(String person){
+        Person p = JSONConverter.createPersonfromJSON(person);
+        Controller.addPerson(p);
+        for (Hobby h : p.getHobbies()) {
+            Controller.addHobby(h);
+//            Controller.hobbifyPerson(p.getId(), h.getName());
+        }
+        Controller.addAddress(p.getHood());
+        Controller.addCityInfo(p.getHood().getShityInfo());
+//        Controller.addressify(p, p.getHood());
+//        Controller.addressCityInfo(p.getHood()  , p.getHood().getShityInfo());
+        for (Phone ph : p.getPhonies()) {
+            Controller.addPhone(p, ph);
+        }
+        return person;
+    }
+    
     /**
      * PUT method for updating or creating an instance of PersonEndpoint
      * @param content representation for the resource

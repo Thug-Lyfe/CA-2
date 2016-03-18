@@ -10,7 +10,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import entity.Address;
+import entity.CityInfo;
+import entity.Hobby;
 import entity.Person;
+import entity.Phone;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -58,12 +64,12 @@ public class JSONConverter {
             for (int i = 0; i < p.getPhonies().size(); i++) {
                 JsonObject phone = new JsonObject();
                 if (Integer.valueOf(p.getPhonies().get(i).getNumber()) != null) {
-                    phone.addProperty("phonenumber " + (i + 1), p.getPhonies().get(i).getNumber());
+                    phone.addProperty("phonenumber ", p.getPhonies().get(i).getNumber());
                 } else {
                     phone.addProperty("phonenumber", "");
                 }
                 if (p.getPhonies().get(i).getDisc() != null) {
-                    phone.addProperty("phonedescription" + (i + 1), p.getPhonies().get(i).getDisc());
+                    phone.addProperty("phonedescription", p.getPhonies().get(i).getDisc());
                 } else {
                     phone.addProperty("phonedescription", "");
                 }
@@ -93,7 +99,7 @@ public class JSONConverter {
                     hobby.addProperty("hobbyname", "");
                 }
                 if (p.getHobbies().get(i).getDisc() != null) {
-                    hobby.addProperty("hobbydescription " + (i + 1), p.getHobbies().get(i).getDisc());
+                    hobby.addProperty("hobbydescription ", p.getHobbies().get(i).getDisc());
                 } else {
                     hobby.addProperty("hobbydescription", "");
                 }
@@ -150,6 +156,9 @@ public class JSONConverter {
                 if (check.has("Name")) {
                     check.remove("Name");
                 }
+                if(check.has("Address")){
+                    check.remove("Address");
+                }
                 contacts.add(check);
             }
         }
@@ -166,8 +175,57 @@ public class JSONConverter {
             if (temp.has("Name")) {
                 temp.remove("Name");
             }
+            if(temp.has("Address")){
+                temp.remove("Address");
+            }
         }
 
         return temp;
     }
+    
+    public static Person createPersonfromJSON(String voorhees){
+        //Jsonparser stuff
+        JsonObject something = new JsonParser().parse(voorhees).getAsJsonObject();
+        
+        //parsing address
+        JsonObject address = something.getAsJsonObject("Address");
+        
+        //adding address
+        Address a = new Address(address.get("street").getAsString(), address.get("addinfo").getAsString());
+        CityInfo ci = new CityInfo(address.get("zipcode").getAsInt(), address.get("city").getAsString());
+        a.setShityInfo(ci);
+        ci.addHoods(a);
+        
+        //adding name
+        JsonObject name = something.getAsJsonObject("Name");
+        Person p = new Person(name.get("firstname").getAsString(), name.get("lastname").getAsString());
+        p.setId(something.get("id").getAsInt());
+        p.setHood(a);
+        
+        //adding email
+        JsonObject contact = something.getAsJsonObject("ContactInfo");
+        p.setEmail(contact.get("email").getAsString());
+        
+        //adding phones
+        JsonArray phonies = contact.getAsJsonArray("Phone");
+        Iterator<JsonElement> ponies = phonies.iterator();
+        while(ponies.hasNext()){
+            JsonObject temp = ponies.next().getAsJsonObject();
+            Phone phone = new Phone(temp.get("phonenumber").getAsInt(), temp.get("phonedescription").getAsString());
+            p.addPhonies(phone);
+            phone.setHoe(p);
+        }
+        
+        //adding hobbies to people and people to hobbies
+        JsonArray hobbies = contact.getAsJsonArray("Hobbies");
+        Iterator<JsonElement> homies = hobbies.iterator();
+        while(ponies.hasNext()){
+            JsonObject temp = homies.next().getAsJsonObject();
+            Hobby hobby = new Hobby(temp.get("hobbyname").getAsString(), temp.get("hobbydescription").getAsString());
+            p.addHobby(hobby);
+            hobby.addPersons(p);
+        }
+        
+        return p;
+    } 
 }
