@@ -25,7 +25,9 @@ public class JSONConverter {
         JsonObject person = new JsonObject();
         JsonObject contactInfo = new JsonObject();
         JsonObject name = new JsonObject();
+        JsonObject home = new JsonObject();
         JsonArray hobbies = new JsonArray();
+        JsonArray phonies = new JsonArray();
         person.addProperty("id", p.getId());
         if (p.getFirstName() != null) {
             name.addProperty("firstname", p.getFirstName());
@@ -43,42 +45,43 @@ public class JSONConverter {
             contactInfo.addProperty("email", "");
         }
         if (p.getHood().getStreet() != null) {
-            contactInfo.addProperty("street", p.getHood().getStreet());
+            home.addProperty("street", p.getHood().getStreet());
         } else {
-            contactInfo.addProperty("street", "");
+            home.addProperty("street", "");
         }
         if (p.getHood().getAdditonalInfo() != null) {
-            contactInfo.addProperty("addinfo", p.getHood().getAdditonalInfo());
+            home.addProperty("addinfo", p.getHood().getAdditonalInfo());
         } else {
-            contactInfo.addProperty("addinfo", "");
+            home.addProperty("addinfo", "");
         }
         if (p.getPhonies() != null || !p.getPhonies().isEmpty()) {
             for (int i = 0; i < p.getPhonies().size(); i++) {
+                JsonObject phone = new JsonObject();
                 if (Integer.valueOf(p.getPhonies().get(i).getNumber()) != null) {
-                    contactInfo.addProperty("phonenumber " + (i + 1), p.getPhonies().get(i).getNumber());
+                    phone.addProperty("phonenumber " + (i + 1), p.getPhonies().get(i).getNumber());
                 } else {
-                    contactInfo.addProperty("phonenumber", "");
+                    phone.addProperty("phonenumber", "");
                 }
                 if (p.getPhonies().get(i).getDisc() != null) {
-                    contactInfo.addProperty("phonedescription" + (i + 1), p.getPhonies().get(i).getDisc());
+                    phone.addProperty("phonedescription" + (i + 1), p.getPhonies().get(i).getDisc());
                 } else {
-                    contactInfo.addProperty("phonedescription", "");
+                    phone.addProperty("phonedescription", "");
                 }
+                phonies.add(phone);
             }
 
         } else {
-            contactInfo.addProperty("phonenumber", "");
-            contactInfo.addProperty("phonedescription", "");
+            phonies.add(new JsonObject());
         }
         if (Integer.valueOf(p.getHood().getShityInfo().getZipCode()) != null) {
-            contactInfo.addProperty("zipcode", p.getHood().getShityInfo().getZipCode());
+            home.addProperty("zipcode", p.getHood().getShityInfo().getZipCode());
         } else {
-            contactInfo.addProperty("zipcode", "");
+            home.addProperty("zipcode", "");
         }
         if (p.getHood().getShityInfo().getCity() != null) {
-            contactInfo.addProperty("city", p.getHood().getShityInfo().getCity());
+            home.addProperty("city", p.getHood().getShityInfo().getCity());
         } else {
-            contactInfo.addProperty("city", "");
+            home.addProperty("city", "");
         }
         if (p.getHobbies() != null || !p.getHobbies().isEmpty()) {
             
@@ -113,8 +116,9 @@ public class JSONConverter {
 //        
 //        
 //        
-        
+        contactInfo.add("Phone", phonies);
         person.add("Name", name);
+        person.add("Address", home);
         person.add("ContactInfo", contactInfo);
         person.add("Hobbies", hobbies);
         return person;
