@@ -217,9 +217,9 @@ public class JSONConverter {
         }
         
         //adding hobbies to people and people to hobbies
-        JsonArray hobbies = contact.getAsJsonArray("Hobbies");
+        JsonArray hobbies = something.getAsJsonArray("Hobbies");
         Iterator<JsonElement> homies = hobbies.iterator();
-        while(ponies.hasNext()){
+        while(homies.hasNext()){
             JsonObject temp = homies.next().getAsJsonObject();
             Hobby hobby = new Hobby(temp.get("hobbyname").getAsString(), temp.get("hobbydescription").getAsString());
             p.addHobby(hobby);
