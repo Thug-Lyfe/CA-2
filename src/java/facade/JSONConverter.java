@@ -64,7 +64,7 @@ public class JSONConverter {
             for (int i = 0; i < p.getPhonies().size(); i++) {
                 JsonObject phone = new JsonObject();
                 if (Integer.valueOf(p.getPhonies().get(i).getNumber()) != null) {
-                    phone.addProperty("phonenumber ", p.getPhonies().get(i).getNumber());
+                    phone.addProperty("phonenumber", p.getPhonies().get(i).getNumber());
                 } else {
                     phone.addProperty("phonenumber", "");
                 }
@@ -99,7 +99,7 @@ public class JSONConverter {
                     hobby.addProperty("hobbyname", "");
                 }
                 if (p.getHobbies().get(i).getDisc() != null) {
-                    hobby.addProperty("hobbydescription ", p.getHobbies().get(i).getDisc());
+                    hobby.addProperty("hobbydescription", p.getHobbies().get(i).getDisc());
                 } else {
                     hobby.addProperty("hobbydescription", "");
                 }
@@ -153,9 +153,6 @@ public class JSONConverter {
                 if (check.has("Hobbies")) {
                     check.remove("Hobbies");
                 }
-                if (check.has("Name")) {
-                    check.remove("Name");
-                }
                 if(check.has("Address")){
                     check.remove("Address");
                 }
@@ -171,9 +168,6 @@ public class JSONConverter {
         if (temp.has("ContactInfo")) {
             if (temp.has("Hobbies")) {
                 temp.remove("Hobbies");
-            }
-            if (temp.has("Name")) {
-                temp.remove("Name");
             }
             if(temp.has("Address")){
                 temp.remove("Address");
