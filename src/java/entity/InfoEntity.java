@@ -23,7 +23,7 @@ import javax.persistence.OneToMany;
  * @author butwhole
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
+//@Inheritance(strategy = InheritanceType.JOINED)
 public abstract class InfoEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -32,10 +32,10 @@ public abstract class InfoEntity implements Serializable {
     private int id;
     private String email;
 
-    @OneToMany(mappedBy = "hoe", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "hoe", cascade = {CascadeType.PERSIST}, orphanRemoval = true)
     private List<Phone> phonies = new ArrayList();
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private Address hood;
 
     public List<Phone> getPhonies() {

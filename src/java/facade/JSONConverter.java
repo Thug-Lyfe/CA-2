@@ -193,7 +193,6 @@ public class JSONConverter {
         //adding name
         JsonObject name = something.getAsJsonObject("Name");
         Person p = new Person(name.get("firstname").getAsString(), name.get("lastname").getAsString());
-        p.setId(something.get("id").getAsInt());
         p.setHood(a);
         
         //adding email

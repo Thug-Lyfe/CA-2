@@ -158,13 +158,14 @@ public class Controller {
 
     }
 
-    public static void deletePerson(int id) {
+    public static Person deletePerson(int id) {
         em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
             Person p = em.find(Person.class, id);
             em.remove(p);
             em.getTransaction().commit();
+            return p;
         } finally {
             em.close();
         }
@@ -264,14 +265,12 @@ public class Controller {
         }
     }
 
-    public static Phone addPhone(InfoEntity i, Phone p) {
+    public static Phone addPhone(Phone p) {
 
         em = emf.createEntityManager();
         Phone found = em.find(Phone.class, p.getNumber());
         try {
             if (found == null) {
-//                i.addPhonies(p);
-                p.setHoe(i);
                 em.getTransaction().begin();
                 em.persist(p);
                 em.getTransaction().commit();
@@ -415,6 +414,20 @@ public class Controller {
             em.getTransaction().begin();
             iee.setHood(as);
             as.addInHoes(iee);
+            em.getTransaction().commit();
+        } finally {
+            em.close();
+        }
+    }
+    
+    public static void phonyfy(InfoEntity ie, Phone a){
+        em = emf.createEntityManager();
+        try {
+            InfoEntity iee = em.find(InfoEntity.class, ie.getId());
+            Phone as = em.find(Phone.class, a.getNumber());
+            em.getTransaction().begin();
+            iee.addPhonies(as);
+            as.setHoe(iee);
             em.getTransaction().commit();
         } finally {
             em.close();
