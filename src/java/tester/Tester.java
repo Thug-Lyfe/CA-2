@@ -5,6 +5,8 @@
  */
 package tester;
 
+import javax.persistence.Persistence;
+
 /**
  *
  * @author David
@@ -14,8 +16,9 @@ public class Tester {
     
     public static void main(String[] args) {
         
-        TestData td = new TestData();
-        td.CreateUsers();
+//        TestData td = new TestData();
+//        td.CreateUsers();
+        Persistence.generateSchema("PU", null);
 
     }
     

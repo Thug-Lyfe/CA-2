@@ -10,217 +10,408 @@ and open the template in the editor.
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    <script>
-        
-        function setIsAdding(val) {
-        val === true ? $("#header").html("Add Person") : $("#header").html("Edit Person");
-      }
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script>
+            var type = "";
+            function setIsAdding(val) {
+                val === true ? $("#header").html("Add Person") : $("#header").html("Edit Person");
+            }
 
-      // true if we are adding, false if editing
-      function isAdding() {
-        return $("#header").html() === "Add Person";
-      }
+            // true if we are adding, false if editing
+            function isAdding() {
+                return $("#header").html() === "Add Person";
+            }
 
-      function setUpHandlers() {
-        $(".btnedit").off("click");
-        $(".btnedit").click(editPerson);
+            function setUpHandlers() {
+                $(".btnedit").off("click");
+                $(".btnedit").click(editPerson);
+                $(".btndelete").off("click");
+                $(".btndelete").click(function (evt) {
+                    var id = $(this).data("personid");
+                    (this).closest("tr").remove();
+                    deletePerson(id);
+                });
+            }
 
-        $(".btndelete").off("click");
-        $(".btndelete").click(function (evt) {
-          var id = $(this).data("personid");
-          (this).closest("tr").remove();
-          deletePerson(id);
-        });
-      }
-       
-    function deletePerson(id) {
-        $.ajax({
-          url: "api/person/" + id,
-          method: "DELETE"
-        }).done(function (deletedPerson) {
-          alert("Person with id: " + deletedPerson.id + " was deleted");
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-          $("#error").html(textStatus + ", " + errorThrown).show();
-        });
-      }
-      
-        function makeRow(person) {
-//            
-        var row = "<tr id='" + person.id + "'><td>" + person.id + "</td><td>" + person.Name.firstname + "</td><td>" + person.Name.lastname + "</td><td>" + person.ContactInfo.email  + "</td><td>"+ person.ContactInfo.street + "</td><td>" + person.ContactInfo.city + "</td><td>" + person.ContactInfo.zipcode;
-        row += "</td><td><a href='#' class='btndelete' data-personid='" + person.id + "'>delete</a> / ";
-        "<a href='#' class='btnedit' data-personid='" + person.id;
-        row += "<a href='#' class='btnedit' data-toggle='modal' data-target='#myModal' data-person='" + JSON.stringify(person) + "'>edit</a></td></tr>";
-        return row;
-      }
-        
-        function savePerson() {
-        var type = "POST";
+            function initAddEditFields(firstname, lastname, email, phones, phonedesc, street, addinfo, city, zipcode, hobbies, hobbydesc, id) {
+                $("#firstname").val(firstname);
+                $("#lastname").val(lastname);
+                $("#email").val(email);
+                $("#id").val(id);
+                $("#phones").val(phones);
+                $("#phonedesc").val(phonedesc);
+                $("#street").val(street);
+                $("#addinfo").val(addinfo);
+                $("#city").val(city);
+                $("#zipcode").val(zipcode);
+                $("#hobbies").val(hobbies);
+                $("#hobbydesc").val(hobbydesc);
 
-        
-        var data = {fName: $("#fname").val(), lName: $("#lname").val(), email: $("#email").val(), adress: {street: $("#email").val(), additonalInfo: $("#addressInfo").val()}};
-//        if (!isAdding()) {
-//          type = "PUT";
-//          data.id = $("#id").val();
-//        }
-        $.ajax({
-          url: "api/person",
-          type: type,
-          contentType: "application/json; charset=utf-8",
-          dataType: "json",
-          data: JSON.stringify(data)
-        }).done(function (added) {
-          initAddEditFields("", "", "", null);
-          if (isAdding()) {
-            $("#tbody").append(makeRow(added));
-          }
-          else {
-            $("#" + data.id).replaceWith(makeRow(added));
-          }
-          setUpHandlers();
-          setIsAdding(true);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-          $("#error").html(textStatus + ", " + errorThrown).show();
-          setIsAdding(true);
-        });
-      }
-        
-        function getAll() {
+            }
 
-        $.ajax({
-          type: "GET",
-          url: "api/person/complete"
-        }).done(function (result) {
-          result.forEach(function (person) {
-            $("#tbody").append(makeRow(person));
-          });
-//          setUpHandlers()
+            function editPerson() {
+                var p = $(this).data("person");
+                var phones = "";
+                var phonedesc = "";
+                var hobbies = "";
+                var hobbydesc = "";
+                for (var i = 0; i < p.ContactInfo.Phone.length; i++) {
+                    if (i !== 0) {
+                        phones += "|";
+                        phonedesc += "|";
+                    }
+                    phones += p.ContactInfo.Phone[i].phonenumber;
+                    phonedesc += p.ContactInfo.Phone[i].phonedescription;
+                }
+                for (var i = 0; i < p.Hobbies.length; i++) {
+                    if (i !== 0) {
+                        hobbies += "|";
+                        hobbydesc += "|";
+                    }
+                    hobbies += p.Hobbies[i].hobbyname;
+                    hobbydesc += p.Hobbies[i].hobbydescription;
+                }
 
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-          $("#error").html(textStatus + ", " + errorThrown).show();
-        });
-      }
-      
-      function getPerson(){
-          $.ajax({
-          url: "api/person/"+$("#getId").val()
-        }).done(function (result) {
-          result.forEach(function (person) {
-            $("#tbody").append(makeRow(person));
-          });
-          setUpHandlers()
+                initAddEditFields(p.Name.firstname, p.Name.lastname, p.ContactInfo.email, phones, phonedesc, p.Address.street, p.Address.addinfo, p.Address.city, p.Address.zipcode, hobbies, hobbydesc, p.id);
+                setIsAdding(false);
+            }
 
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-          $("#error").html(textStatus + ", " + errorThrown).show();
-        });
-      }
-      
-        
-        
-        $(document).ready(function () {
-        $("#error").html("").hide();
-        $("#tbody").html("");
-        $("#getPerson").click(getPerson);
-        $("#savePerson").click(savePerson);
-        $("#getAll").click(getAll);
-        setIsAdding(true);
-      }
-      );
-//      + "</td><td>" + person.Hobbies
-//        <td>Hobbies</td>
-    </script>
+            function deletePerson(id) {
+                $.ajax({
+                    url: "api/person/" + id,
+                    method: "DELETE"
+                }).done(function (deletedPerson) {
+                    alert("Person with id: " + deletedPerson.id + " was deleted");
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $("#error").html(textStatus + ", " + errorThrown).show();
+                });
+            }
+
+            function makeHeader() {
+                var header = "";
+                if (type === "all") {
+                    header = "<tr><td>ID</td><td>First Name</td><td>Last name</td><td>email</td><td>phones</td><td>hobbies</td><td>Address</td><td>City</td><td>Zip code</td></tr>";
+                }
+                if (type === "contact") {
+                    header = "<tr><td>ID</td><td>Name</td><td>email</td><td>phones</td></tr>";
+                }
+                if (type === "company") {
+                    header = "";
+                }
+                return header;
+            }
+            
+            function makeRowAll(person) {
+                //      
+                var phone = "";
+                var hobbies = "";
+                for (var i = 0; i < person.ContactInfo.Phone.length; i++) {
+                    if (i !== 0) {
+                        phone += ",";
+                    }
+                    phone += "[" + person.ContactInfo.Phone[i].phonenumber + "," + person.ContactInfo.Phone[i].phonedescription + "]";
+                }
+                for (var i = 0; i < person.Hobbies.length; i++) {
+                    if (i !== 0) {
+                        hobbies += ",";
+                    }
+                    hobbies += "[" + person.Hobbies[i].hobbyname + "," + person.Hobbies[i].hobbydescription + "]";
+                }
+
+                var row = "<tr id='" + person.id + "'><td>" + person.id + "</td><td>" + person.Name.firstname + "</td><td>" + person.Name.lastname + "</td><td>" + person.ContactInfo.email + "</td><td>" + phone + "</td><td>" + hobbies + "</td><td>" + person.Address.street + ", " + person.Address.addinfo + "</td><td>" + person.Address.city + "</td><td>" + person.Address.zipcode;
+                row += "</td><td><a href='#' class='btndelete' data-personid='" + person.id + "'>delete</a> / ";
+                "<a href='#' class='btnedit' data-personid='" + person.id;
+                row += "<a href='#' class='btnedit' data-toggle='modal' data-target='#createModal' data-person='" + JSON.stringify(person) + "'>edit</a></td></tr>";
+                return row;
+            }
+
+            function makeRowContact(person) {
+                var phone = "";
+                for (var i = 0; i < person.ContactInfo.Phone.length; i++) {
+                    if (i !== 0) {
+                        phone += ",";
+                    }
+                    phone += "[" + person.ContactInfo.Phone[i].phonenumber + "," + person.ContactInfo.Phone[i].phonedescription + "]";
+                }
+                
+                var row = "<tr id='" + person.id + "'><td>" + person.id + "</td><td>" + person.Name.firstname + " "+ person.Name.lastname + "</td><td>" + person.ContactInfo.email + "</td><td>" + phone;
+                row += "</td><td><a href='#' class='btndelete' data-personid='" + person.id + "'>delete</a> / ";
+                "<a href='#' class='btnedit' data-personid='" + person.id;
+                row += "<a href='#' class='btnedit' data-toggle='modal' data-target='#createModal' data-person='" + JSON.stringify(person) + "'>edit</a></td></tr>";
+                return row;
+            }
+
+            function savePerson() {
+                var type = "POST";
+                var phones = $("#phones").val().split("|");
+                var phonedesc = $("#phonedesc").val().split("|");
+                var hobbies = $("#hobbies").val().split("|");
+                var hobbydesc = $("#hobbydesc").val().split("|");
+                var ptemp = [{phonenumber: parseInt(phones[0]),
+                        phonedescription: phonedesc[0]}];
+                var htemp = [{hobbyname: hobbies[0],
+                        hobbydescription: hobbydesc[0]}];
+                for (var i = 1; i < phones.length; i++) {
+                    for (var i = 1; i < phonedesc.length; i++) {
+                        ptemp[i] = {phonenumber: parseInt(phones[i]),
+                            phonedescription: phonedesc[i]};
+                    }
+                }
+                for (var i = 1; i < hobbies.length; i++) {
+                    for (var i = 1; i < hobbydesc.length; i++) {
+                        htemp[i] = {hobbyname: hobbies[i],
+                            hobbydescription: hobbydesc[i]};
+                    }
+                }
+
+
+
+                var data = {Name: {
+                        firstname: $("#firstname").val(),
+                        lastname: $("#lastname").val()
+                    },
+                    Address: {
+                        street: $("#street").val(),
+                        addinfo: $("#addinfo").val(),
+                        zipcode: parseInt($("#zipcode").val()),
+                        city: $("#city").val()
+                    },
+                    ContactInfo: {
+                        email: $("#email").val(),
+                        Phone: ptemp
+                    },
+                    Hobbies: htemp
+                };
+                if (!isAdding()) {
+                    type = "PUT";
+                    data.id = $("#id").val();
+                }
+                $.ajax({
+                    url: "api/person",
+                    type: type,
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(data)
+                }).done(function (added) {
+                    initAddEditFields("", "", "", null);
+                    if (isAdding()) {
+                        $("#tbody").append(makeRowAll(added));
+                        
+                    }
+                    else {
+                        $("#" + data.id).replaceWith(makeRowAll(added));
+                    }
+                    setUpHandlers();
+                    setIsAdding(true);
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $("#error").html(textStatus + ", " + errorThrown).show();
+                    setIsAdding(true);
+                });
+            }
+
+            function getAll() {
+                type = "all";
+                $("#tbody").empty();
+                $("#thead").empty();
+                $("#thead").append(makeHeader());
+                $.ajax({
+                    type: "GET",
+                    url: "api/person/complete"
+                }).done(function (result) {
+                    result.forEach(function (person) {
+                        $("#tbody").append(makeRowAll(person));
+                    });
+                    setUpHandlers();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $("#error").html(textStatus + ", " + errorThrown).show();
+                });
+            }
+
+            function getAllContacts() {
+                type = "contact";
+                $("#tbody").empty();
+                $("#thead").empty();
+                $("#thead").append(makeHeader());
+                $.ajax({
+                    type: "GET",
+                    url: "api/person/contactinfo"
+                }).done(function (result) {
+                    result.forEach(function (person) {
+                        $("#tbody").append(makeRowContact(person));
+                    });
+                    setUpHandlers();
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $("#error").html(textStatus + ", " + errorThrown).show();
+                });
+            }
+
+            function getPerson() {
+                if (type !== "all") {
+                    type = "all";
+                    $("#tbody").empty();
+                    $("#thead").empty();
+                    $("#thead").append(makeHeader());
+                }
+                $.ajax({
+                    url: "api/person/complete/" + $("#getId").val()
+                }).done(function (result) {
+
+                    $("#tbody").append(makeRowAll(result));
+
+                    setUpHandlers();
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $("#error").html(textStatus + ", " + errorThrown).show();
+                });
+            }
+            
+            function getContact() {
+                if (type !== "contact") {
+                    type = "contact";
+                    $("#tbody").empty();
+                    $("#thead").empty();
+                    $("#thead").append(makeHeader());
+                }
+                $.ajax({
+                    url: "api/person/contactinfo/" + $("#getId").val()
+                }).done(function (result) {
+
+                    $("#tbody").append(makeRowContact(result));
+
+                    setUpHandlers();
+
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    $("#error").html(textStatus + ", " + errorThrown).show();
+                });
+            }
+            
+
+
+
+            $(document).ready(function () {
+                $("#error").html("").hide();
+                $("#tbody").html("");
+                $("#getPerson").click(getPerson);
+                $("#getContact").click(getContact);
+                $("#savePerson").click(savePerson);
+                $("#getAll").click(getAll);
+                setIsAdding(true);
+            }
+            );
+            //      + "</td><td>" + person.Hobbies
+            //        <td>Hobbies</td>
+        </script>
     </head>
     <body>
+
+        <h2>All Persons</h2>
+        <table class="table" style="width: 50%">
+            <thead id="thead"></thead>
+            <tbody id="tbody"></tbody>
+        </table>
+        <button id="getAll" class="btn btn-default">Load All People</button>
+        <button class="btn btn-default" data-toggle="modal" data-target="#getModal">Load Person by Id</button>
+        <button type="button" class="btn btn-primary btn-primary" data-toggle="modal" data-target="#createModal">
+            Add New Person
+        </button>
         
-    <h2>All Persons</h2>
-    <table class="table" style="width: 50%">
-      <thead>
-        <tr><td>ID</td><td>First Name</td><td>Last name</td><td>email</td><td>phones</td><td>Address</td><td>City</td></tr>
-      </thead>
-      <tbody id="tbody"></tbody>
-    </table>
-    <button id="getAll" class="btn btn-default">Load All People</button>
-    <button id="getPerson" class="btn btn-default" data-toggle="modal" data-target="#getModal">Load Person by Id</button>
-    <button type="button" class="btn btn-primary btn-primary" data-toggle="modal" data-target="#createModal">
-      Add New Person
-    </button>
-    <div id="error" class="alert alert-danger" role="alert" style="width: 50%"></div>
+        <div id="error" class="alert alert-danger" role="alert" style="width: 50%"></div>
 
-    
-    <!-- getModal -->
-    <div class="modal fade" id="getModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div id="header" class="modal-header">
 
-          </div>
-          <div class="modal-body">
-            
-            <div class="form-group">
-              <label for="getId">Person Id</label>
-              <input type="text" class="form-control" name="PersonId" id="PersonId">
+        <!-- getModal -->
+        <div class="modal fade" id="getModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div id="header" class="modal-header">
+
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label for="getId">Person Id</label>
+                            <input type="text" class="form-control" name="getId" id="getId">
+                        </div>
+
+                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                        <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" id="getPerson" class="btn btn-primary" data-dismiss="modal">Load Person</button>
+                        <button type="button" id="getContact" class="btn btn-primary" data-dismiss="modal">Load Contact</button>
+                    </div>
+                </div>
             </div>
-
-            <!-- Allow form submission with keyboard without duplicating the dialog button -->
-            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button type="button" id="savePerson" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-          </div>
         </div>
-      </div>
-    </div>
-    </div>
-    
-    <!-- createModal -->
-    <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div id="header" class="modal-header">
 
-          </div>
-          <div class="modal-body">
-            <input type="hidden"  id="id">
-            <div class="form-group">
-              <label for="fname">First Name</label>
-              <input type="text" class="form-control" id="fname">
-            </div>
-            <div class="form-group">
-              <label for="lname">Last Name</label>
-              <input type="text" class="form-control" name="lname" id="lname">
-            </div>
-            <div class="form-group">
-              <label for="email">email</label>
-              <input type="text" class="form-control" name="email" id="email">
-           
-            <div class="form-group">
-              <label for="Address">Address</label>
-              <input type="text" class="form-control" name="address" id="address">
-            </div>
-              <div class="form-group">
-              <label for="AddressInfo">Address Info</label>
-              <input type="text" class="form-control" name="addressInfo" id="addressInfo">
-            </div>
-            <div class="form-group">
-              <label for="email">Zipcode</label>
-              <input type="text" class="form-control" name="zip" id="zip">
-            </div>
+        <!-- createModal -->
+        <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div id="header" class="modal-header">
 
-            <!-- Allow form submission with keyboard without duplicating the dialog button -->
-            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden"  id="id">
+                        <div class="form-group">
+                            <label for="firstname">First Name</label>
+                            <input type="text" class="form-control" name="firstname" id="firstname">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" class="form-control" name="lastname" id="lastname">
+                        </div>
+                        <div class="form-group">
+                            <label for="hobbies">Hobbies</label>
+                            <input type="text" class="form-control" name="hobbies" id="hobbies">
+                        </div>
+                        <div class="form-group">
+                            <label for="hobbydesc">Hobby description</label>
+                            <input type="text" class="form-control" name="hobbydesc" id="hobbydesc">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="text" class="form-control" name="email" id="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="phones">Phones</label>
+                            <input type="text" class="form-control" name="phones" id="phones">
+                        </div>
+                        <div class="form-group">
+                            <label for="phonedesc">Phone description</label>
+                            <input type="text" class="form-control" name="phonedesc" id="phonedesc">
+                        </div>
+                        <div class="form-group">
+                            <label for="street">Street</label>
+                            <input type="text" class="form-control" name="street" id="street">
+                        </div>
+                        <div class="form-group">
+                            <label for="addinfo">Additional street info</label>
+                            <input type="text" class="form-control" name="addinfo" id="addinfo">
+                        </div>
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" class="form-control" name="city" id="city">
+                        </div>
+                        <div class="form-group">
+                            <label for="zipcode">Zipcode</label>
+                            <input type="text" class="form-control" name="zipcode" id="zipcode">
+                        </div>
 
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-            <button type="button" id="savePerson" class="btn btn-primary" data-dismiss="modal">Save changes</button>
-          </div>
+                        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+                        <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" id="savePerson" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-    </div>
-  </body>
-    
+
+    </body>
+
 </html>

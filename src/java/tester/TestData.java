@@ -318,7 +318,7 @@ public class TestData {
             ie.setEmail(ie.getFirstName()+"@mail.com");
             Phone p = new Phone((rand.nextInt(90000000)+10000000), PhoneDesc.get(rand.nextInt(PhoneDesc.size())));
             ie = Controller.addPerson(ie);
-            p = Controller.addPhone(ie, p);
+//            p = Controller.addPhone(ie, p);
 
             Hobby hobby1 = new Hobby();
             hobby1.setName(hobbies.get(rand.nextInt(hobbies.size())));
@@ -338,7 +338,7 @@ public class TestData {
             Phone p1 = new Phone((rand.nextInt(90000000)+10000000), PhoneDesc.get(rand.nextInt(PhoneDesc.size())));
             
             com = Controller.addCompany(com);
-            p1 = Controller.addPhone(com, p1);
+//            p1 = Controller.addPhone(com, p1);
             
             int getpos = rand.nextInt(cities.size()); // so both get the right value..
 
