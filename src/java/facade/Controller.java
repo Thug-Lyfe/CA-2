@@ -28,8 +28,7 @@ import javax.persistence.TypedQuery;
 public class Controller {
 
 
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME)
-;
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME);
     private static EntityManager em;
 
     public static List<Person> getPersonlist() {
