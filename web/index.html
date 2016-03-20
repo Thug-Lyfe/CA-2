@@ -262,7 +262,7 @@ and open the template in the editor.
                     setUpHandlers();
 
                 }).fail(function (jqXHR, textStatus, errorThrown) {
-                    $("#error").html(textStatus + ", " + errorThrown).show();
+                    $("#error").html(textStatus + ", " + ", no person with that id").show();
                 });
             }
             
@@ -282,11 +282,13 @@ and open the template in the editor.
                     setUpHandlers();
 
                 }).fail(function (jqXHR, textStatus, errorThrown) {
-                    $("#error").html(textStatus + ", " + errorThrown).show();
+                    $("#error").html(textStatus + ", no person with that id").show();
                 });
             }
             
-
+            function clear(){
+               initAddEditFields("", "", "", "", "", "", "", "", "", "", "", "");
+            }
 
 
             $(document).ready(function () {
@@ -296,11 +298,12 @@ and open the template in the editor.
                 $("#getContact").click(getContact);
                 $("#savePerson").click(savePerson);
                 $("#getAll").click(getAll);
+                $("#getAllCon").click(getAllContacts);
+                $("#clear").click(clear);
                 setIsAdding(true);
             }
             );
-            //      + "</td><td>" + person.Hobbies
-            //        <td>Hobbies</td>
+
         </script>
     </head>
     <body>
@@ -311,8 +314,9 @@ and open the template in the editor.
             <tbody id="tbody"></tbody>
         </table>
         <button id="getAll" class="btn btn-default">Load All People</button>
+        <button id="getAllCon" class="btn btn-default">Load All Contacts</button>
         <button class="btn btn-default" data-toggle="modal" data-target="#getModal">Load Person by Id</button>
-        <button type="button" class="btn btn-primary btn-primary" data-toggle="modal" data-target="#createModal">
+        <button id="clear" type="button" class="btn btn-primary btn-primary" data-toggle="modal" data-target="#createModal">
             Add New Person
         </button>
         
