@@ -5,6 +5,7 @@
  */
 package facade;
 
+import deploy.DeploymentConfiguration;
 import entity.Address;
 import entity.CityInfo;
 import entity.Company;
@@ -26,7 +27,9 @@ import javax.persistence.TypedQuery;
  */
 public class Controller {
 
-    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("PU");
+
+    private static EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.PU_NAME)
+;
     private static EntityManager em;
 
     public static List<Person> getPersonlist() {
